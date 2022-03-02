@@ -108,17 +108,22 @@ int main()
 	int n=5,m=8,mm;
 	creatset(s1,a,n);
 	creatset(s2,b,m);
-	printf("s1: ");dispset(s1);
-	printf("s2: ");dispset(s2);
+	printf("s1: ");
+	dispset(s1);
+	printf("s2: ");
+	dispset(s2);
 	printf("s3=s1∪s2\n");
 	add(s1,s2,s3);
-	printf("s3: ");dispset(s3);
+	printf("s3: ");
+	dispset(s3);
 	printf("s4=s1-s2\n");
 	sub(s1,s2,s4);
-	printf("s4 ");dispset(s4);
+	printf("s4 ");
+	dispset(s4);
 	printf("s5=s1∩s2\n");
 	intersection(s1,s2,s5);
-	printf("s5: ");dispset(s5);
+	printf("s5: ");
+	dispset(s5);
 	Evennumbers(s1,mm);
 	printf("%d\n",mm);
 }
