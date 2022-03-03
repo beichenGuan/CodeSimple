@@ -118,6 +118,91 @@ bool ListDelete(SqList *&L,int i,char &e)//删除第i个元素
 
 }
 
+//删除顺序表中所有值为x的元素，方法1
+void delnode1(SqList *&A, char x)
+{
+	int k=0,i;//k记录值不等于x的元素个数
+	for(i=0;i<A->length;i++)
+	{
+		if(A->data[i]!=x)//当前元素不为x,插入A中
+		{
+			A->data[k] = A->data[i];
+			k++;//不等于x的元素增1
+		}
+	}
+	A->length=k;//顺序表长度等于k
+}
+
+//删除顺序表中所有值为x的元素，方法2
+void delnode2(SqList *&A,char x)
+{
+	int k=0,i=0;//k记录值不等于x的元素个数
+	while(i<A->length)
+	{
+		if(A->data[i]==x)//当前元素值为x时k增1
+		{
+			k++;
+		}
+		else//不为x时将其前移k个位置
+		{
+			A->data[i-k]=A->data[i];
+		}
+		i++;
+	}
+	A->length=A->length-k;//顺序表A的长度递减k
+}
+
+//移动元素,解法1
+//交换元素位置
+void move1(SqList *&L)
+{
+	int i=0,j=L->length-1;
+	char tmp;
+	char pivot=L->data[0];//以data[0]为基准
+	while(i<j)
+	{
+		while(i<j&&L->data[j]>pivot)//从后往前扫描，找出一个≤pivot的元素
+		{
+			j--;
+		}
+		while(i<j&&L->data[i]<=pivot)//从前往后扫描，找出一个＞pivot的元素
+		{
+			i++;
+		}
+		if(i<j)
+		{
+			tmp=L->data[i];
+			L->data[i]=L->data[j];
+			L->data[j]=tmp;
+		}
+	}
+	tmp=L->data[0];
+	L->data[0] = L->data[j];
+	L->data[j] = tmp;
+}
+
+//移动元素,解法2
+//找出符合条件的直接前移或者后移
+void move2(SqList *&L)
+{
+	int i=0,j=L->length-1;
+	char pivot = L->data[0];//以data[0]为基准
+	while(i<j)
+	{
+		while(j>i&&L->data[j]>pivot)
+		{
+			j--;//从右向左扫描，找出一个≤pivot的元素
+		}
+		L->data[i] = L->data[j];//放入data[i]处
+		while(j>i&&L->data[i]<=pivot)
+		{
+			i++;//从左向右扫描，找出一个大于pivot的元素
+		}
+		L->data[j]=L->data[i];//放入data[j]处
+	}
+	L->data[i] = pivot;//放置基准值
+}
+
 int main()
 {
 	SqList *L1,*L2,*L3,*L4,*L5;
