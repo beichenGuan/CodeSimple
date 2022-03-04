@@ -192,6 +192,92 @@ bool ListDelete(LinkList *&L,int i,int &e)
 	}
 }
 
+//删除单链表L中元素值最大的节点
+//算法时间复杂度O(n)
+void delmaxnode(LinkList *&L)
+{
+	LinkList *p = L->next;
+	LinkList *pre = L;
+	LinkList *maxp = p;
+	LinkList *maxpre = pre;
+
+	while(p!=NULL)
+	{
+		if(maxp->data<p->data)//若找到一个更大的节点
+		{
+			maxp = p;//更改maxp
+			maxpre = pre;//更改maxpre
+		}
+		pre = p;//p、pre同步后移一个节点
+		p = p->next;
+	}
+
+	maxpre->next = maxp->next;//删除*maxp节点
+	free(maxp);//释放*maxp节点
+
+}
+
+//使单链表元素递增有序排列
+//算法时间复杂度O(n²)
+void sort(LinkList *&L)
+{
+	LinkList *p,*pre,*q;
+	p = L->next->next;//p指向L的第2个数据节点
+	L->next->next = NULL;//构造只含一个数据节点的有序表
+
+	while(p!=NULL)
+	{
+		q = p->next;//q保存*p节点后继节点的指针
+		pre = L;//从有序表开头进行比较，pre指向插入*p的前趋节点
+		while(pre->next!=NULL&&pre->next->data<p->data)
+		{
+			pre = pre->next;//在有序表中找插入*p的前趋节点*pre
+		}
+		p->next = pre->next;
+		pre->next = p;
+		p = q;//扫描原单链表余下的节点
+	}
+
+}
+
+//逆置单链表L
+void Reverse(LinkList *&L)
+{
+	LinkList *p = L->next;
+	LinkList *q;
+	L->next = NULL;
+
+	while(p != NULL)
+	{
+		q = p->next;
+		p->next = L->next;
+		L->next = p;
+		p = q;
+	}
+}
+
+//将单链表L{a1,b1,a2,b2,...,an,bn}拆分成L1(顺序),L2(逆序)
+voie split(LinkList *&L,LinkList *&L1,LinkList *&L2)
+{
+	LinkList *p = L->next,*q,*r1;//p指向第一个数据节点
+	L1 = L;						 //L1利用原来L的头节点
+	r1 = L1;					 //r1始终指向L1的尾节点
+	L2 = (LinkList *)malloc(sizeof(LinkList));//创建L2的头节点
+	L2->next = NULL;			 //置L2的指针域为NULL
+
+	while(p!=NULL)
+	{
+		r1->next = p;//采用尾插法将*p(data值为ai)插入L1中
+		r1 = p;
+		p = p->next;//p移向下一个节点(data值为bi)
+		q = p->next;//用q保存p的后继节点
+		p->next = L2->next;//头插法插入L2
+		L2->next = p;
+		p = q;//p重新指向ai+1节点
+	}
+	r1->next=NULL;  //尾节点next置空
+}
+
 int main()
 {
 	LinkList *L1,*L2,*L3,*L4,*L5;
